@@ -3,13 +3,14 @@
 </head>
 
 <body>
+   {{loginButtons}}
    {{> newOrder}}
    {{> ordersList}}
 </body>
 
 <template name="newOrder">
 
-   <label>Name</label>
+   <label>Item Name</label>
    <input type="text" id="name">
 
    <label>Count</label>
@@ -29,6 +30,6 @@
 </template>
 
 <template name="order">
-   {{name}}:{{count}}
+   {{name}}:{{count}} ({{userName}})
    <br>
 </template>

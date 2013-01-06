@@ -13,11 +13,20 @@ Template.newOrder.events({
       console.log("Create new order");
       var name = template.find("#name").value;
       var count = template.find("#count").value;
+      var userId = Meteor.userId();
 
+      // Check if user is logged id
+      if (!userId) {
+         console.log("User must be logged in");
+         return;
+      }
+
+      // Validate inputs
       if (name.length && count.length) {
          Meteor.call('createOrder', {
             name : name,
-            count : count
+            count : count,
+            userId: userId
          }), function(error, order) {
             if (!error) {
                console.log("Sucessfully created order : " + order);
