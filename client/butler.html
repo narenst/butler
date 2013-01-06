@@ -1,0 +1,34 @@
+<head>
+  <title>Butler at your service</title>
+</head>
+
+<body>
+   {{> newOrder}}
+   {{> ordersList}}
+</body>
+
+<template name="newOrder">
+
+   <label>Name</label>
+   <input type="text" id="name">
+
+   <label>Count</label>
+   <input type="text" id="count">
+
+   <button type="button" id="create">Submit</button>
+
+</template>
+
+<template name="ordersList">
+  <h1>Orders</h1>
+  
+  {{#each orders}}
+     {{> order}}
+  {{/each}}
+
+</template>
+
+<template name="order">
+   {{name}}:{{count}}
+   <br>
+</template>
