@@ -21,5 +21,24 @@ Meteor.methods({
          userId: options.userId,
          userName: userName
       });
+   },
+
+   updateOrder: function (options) {
+
+      return Orders.update(
+         { userId: options.userId }, 
+         {
+            $set: {
+               name: options.name,
+               count: options.count
+            }
+         }
+      );
+   },
+
+   deleteOrder: function (options) {
+      return Orders.remove(
+         { userId: options.userId }
+      );
    }
 });

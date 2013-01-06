@@ -4,19 +4,57 @@
 
 <body>
    {{loginButtons}}
-   {{> newOrder}}
-   {{> ordersList}}
+
+   <div class="row">
+      <div class="span4">
+         {{#if currentUser}}
+            {{> newOrder}}
+         {{else}}
+            {{> requestLogin}}
+         {{/if}}
+      </div>
+
+      <div class="span8">
+         {{> ordersList}}
+      </div>
+   </div>
 </body>
 
+<template name="requestLogin">
+   <h1>Your Order</h1>
+
+   Login above to place your order.
+</template>
+
 <template name="newOrder">
+   <h1>Your Order</h1>
 
-   <label>Item Name</label>
-   <input type="text" id="name">
+   {{#if existingOrder}}
 
-   <label>Count</label>
-   <input type="text" id="count">
+      <label>Item Name</label>
+      <input type="text" id="name" value="{{existingOrder.name}}">
 
-   <button type="button" id="create">Submit</button>
+      <label>Count</label>
+      <input type="text" id="count" value="{{existingOrder.count}}">
+
+      <br><br>
+      <button class="btn btn-success" id="update">Update</button>
+      <button class="btn btn-danger" id="delete">Delete</button>
+
+   {{else}}
+
+      <label>Item Name</label>
+      <input type="text" id="name">
+
+      <label>Count</label>
+      <input type="text" id="count">
+
+      <br><br>
+      <button class="btn btn-success" id="create">Submit</button>
+
+   {{/if}}
+
+   <button class="btn" id="clear">Clear</button>
 
 </template>
 
