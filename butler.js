@@ -37,6 +37,7 @@ Meteor.methods({
    },
 
    deleteOrder: function (options) {
+      
       return Orders.remove(
          { userId: options.userId }
       );

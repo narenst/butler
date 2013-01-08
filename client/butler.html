@@ -6,7 +6,7 @@
    {{loginButtons}}
 
    <div class="row">
-      <div class="span4">
+      <div class="span4 offset1">
          {{#if currentUser}}
             {{> newOrder}}
          {{else}}
@@ -59,15 +59,28 @@
 </template>
 
 <template name="ordersList">
-  <h1>Orders</h1>
-  
-  {{#each orders}}
-     {{> order}}
-  {{/each}}
-
+   <h1>Orders</h1>
+   <table class="table">
+      <thead>
+         <tr>
+            <th>User</th>
+            <th>Item</th>
+            <th>Count</th>
+         </tr>
+      </thead>
+      <tbody>
+         {{#each orders}}
+            {{> order}}
+         {{/each}}
+      </tbody>
+   </table>
 </template>
 
 <template name="order">
-   {{name}}:{{count}} ({{userName}})
-   <br>
+   <tr>
+      <td>{{userName}}</td>
+      <td>{{name}}</td>
+      <td>{{count}}</td>
+   </tr>
 </template>
+
