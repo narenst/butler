@@ -8,26 +8,36 @@ Meteor.methods({
    // Create an order
    // name : item name
    // count : count of items
+   // requestId: request id
    // userId : user id
    // userName : user name
    createOrder: function (options) {
 
-      //Find User info from Meteor.users
+      // Find User info from Meteor.users
       var user = Meteor.users.findOne({_id:options.userId});
       var userName = user.emails[0].address;
 
-      return Orders.insert({
-         name: options.name,
-         count: options.count,
-         userId: options.userId,
-         userName: userName
-      });
+      // Verify if request exists.
+      var request = Requests.findOne({_id:options.requestId});
+
+      if (request) {
+         return Orders.insert({
+            name: options.name,
+            count: options.count,
+            userId: options.userId,
+            userName: userName,
+            requestId: options.requestId
+         });
+      } else {
+         console.log("Request no longer exists");
+         return null;
+      }
    },
 
    updateOrder: function (options) {
 
       return Orders.update(
-         { userId: options.userId }, 
+         { userId: options.userId, requestId: options.requestId }, 
          {
             $set: {
                name: options.name,
@@ -40,7 +50,7 @@ Meteor.methods({
    deleteOrder: function (options) {
       
       return Orders.remove(
-         { userId: options.userId }
+         { userId: options.userId, requestId: options.requestId }
       );
    },
 

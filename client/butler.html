@@ -94,8 +94,6 @@
 
 
 
-
-
 <template name="ordersTemplate">
    <div class="span4 offset1">
       {{#if currentUser}}
@@ -149,7 +147,10 @@
 </template>
 
 <template name="ordersList">
-   <h1>Orders</h1>
+
+   <h2> {{request.title}} </h2>
+   <h5> <b> Due: </b> {{ request.due }} </h5>
+
    <table class="table">
       <thead>
          <tr>
