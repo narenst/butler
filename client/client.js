@@ -1,6 +1,15 @@
 
 //Subscriber to Orders collection
 Meteor.subscribe("Orders");
+Meteor.subscribe("Requests");
+
+Template.routerTemplate.orderPage = function() {
+   return Session.get("current_page") === "orders";
+}
+
+Template.routerTemplate.requestsPage = function() {
+   return Session.get("current_page") === "requests";
+}
 
 Template.ordersList.orders = function() {
    return Orders.find();
@@ -9,6 +18,95 @@ Template.ordersList.orders = function() {
 Template.newOrder.existingOrder = function() {
    return Orders.findOne({userId:Meteor.userId()});
 }
+
+Template.requestsList.requests = function() {
+   return Requests.find({userId:Meteor.userId()});
+}
+
+Template.newRequest.events({
+
+   'click #create' : function (event, template) {
+      console.log("Create new request");
+      createRequest(template);
+   },
+
+   'click #clear' : function(event, template) {
+      console.log("Clear order form");
+      clearRequestForm(template);
+   },
+
+   // 'click #delete' : function(event, template) {
+   //    console.log("Deleting order");
+   //    crud(template, 'deleteOrder');
+   // },
+});
+
+//Create request
+function createRequest(template) {
+
+   var title = template.find("#title").value;
+   var due = template.find("#due").value;
+   var fields = parseFields(template.find("#fields").value);
+   var userId = Meteor.userId();
+
+   console.log(title);
+   console.log(due);
+   console.log(fields);
+   console.log(userId);
+
+   // Check if user is logged id
+   if (!userId) {
+      console.log("User must be logged in");
+      return;
+   }
+
+   // Validate inputs
+   if (title.length && due.length && fields.length) {
+      clearRequestForm(template);
+      Meteor.call("createRequest", {
+         title : title,
+         due : due,
+         userId: userId,
+         fields: fields
+      }), function(error, order) {
+         if (!error) {
+            console.log("Sucessfully completed operation");
+         } else {
+            console.log("Error in creating the request");
+         }
+      }
+   } else {
+      console.log("Invalid inputs");
+   }
+}
+
+/**
+ * Split by commas.
+ * Trim fields.
+ * Remove duplicates.
+ * return an array.
+ */
+function parseFields(fields) {
+   fieldsList = fields.split(",");
+   resultList = [];
+   for (var i=0; i < fieldsList.length; i++) {
+
+      field = $.trim(fieldsList[i]);
+      if (field.length && 
+          $.inArray(field, resultList) == -1) {
+         resultList.push(field);
+      }
+   }
+   return resultList;
+}
+
+//Clear input form
+function clearRequestForm(template) {
+   template.find("#title").value = "";
+   template.find("#due").value = "";
+   template.find("#fields").value = "";
+}
+
 
 Template.newOrder.events({
 
@@ -71,3 +169,32 @@ function clearForm(template) {
    template.find("#name").value = "";
    template.find("#count").value = "";
 }
+
+
+// Router
+
+var ButlerRouter = Backbone.Router.extend({
+   routes: {
+      "requests/:request_id": "orders",
+      "requests": "requests"
+   },
+
+   orders: function (request_id) {
+      Session.set("request_id", request_id);
+      Session.set("current_page", "orders");
+   },
+
+   requests: function () {
+      Session.set("current_page", "requests");
+   },
+
+   setList: function (request_id) {
+      this.navigate("requests/" + request_id, true);
+   }
+});
+
+Router = new ButlerRouter;
+
+Meteor.startup(function () {
+   Backbone.history.start({pushState: true});
+});

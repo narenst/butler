@@ -1,6 +1,7 @@
 
 // Define Orders collection
 Orders = new Meteor.Collection("Orders")
+Requests = new Meteor.Collection("Requests")
 
 Meteor.methods({
 
@@ -40,6 +41,29 @@ Meteor.methods({
       
       return Orders.remove(
          { userId: options.userId }
+      );
+   },
+
+
+   // Create a request
+   // title : request title
+   // due : due date and time
+   // userId : owner user id
+   // fields : list of fields 
+   createRequest: function (options) {
+
+      return Requests.insert({
+         title: options.title,
+         due: options.due,
+         userId: options.userId,
+         fields: options.fields
+      });
+   },
+
+   deleteRequest: function (options) {
+
+      return Requests.remove(
+         { _id: options.id}
       );
    }
 });

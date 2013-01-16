@@ -6,19 +6,107 @@
    {{loginButtons}}
 
    <div class="row">
-      <div class="span4 offset1">
-         {{#if currentUser}}
-            {{> newOrder}}
-         {{else}}
-            {{> requestLogin}}
-         {{/if}}
-      </div>
-
-      <div class="span8">
-         {{> ordersList}}
-      </div>
+      {{>routerTemplate}}
    </div>
 </body>
+
+<template name="routerTemplate">
+   {{#if orderPage}}
+      {{>ordersTemplate}}
+   {{/if}}
+
+   {{#if requestsPage}}
+      {{>requestsTemplate}}
+   {{/if}}   
+</template>
+
+<template name="requestsTemplate">
+   {{#if currentUser}}
+      <div class="span4 offset1">
+         {{> newRequest}}
+      </div>
+      <div class="span8">
+         {{> requestsList}}
+      </div>
+   {{else}}
+      <div class="span4 offset1">
+         {{> requestRequestLogin}}
+      </div>
+   {{/if}}
+</template>
+
+<template name="requestRequestLogin">
+   <h1>Your Requests</h1>
+
+   Login above to view your requests.
+</template>
+
+<template name="newRequest">
+   <h2>New Request</h2>
+
+   <label>Title</label>
+   <input type="text" id="title">
+
+   <label>Due</label>
+   <input type="text" id="due">
+
+   <label>Fields</label>
+   <textarea id="fields" rows="3"/>
+
+   <br><br>
+   <button class="btn btn-success" id="create">Create</button>
+   <button class="btn" id="clear">Clear</button>
+</template>
+
+<template name="requestsList">
+   <h1>Your Requests</h1>
+   <table class="table">
+      <thead>
+         <tr>
+            <th>Title</th>
+            <th>Entries</th>
+            <th>Due</th>
+            <th>Link</th>
+         </tr>
+      </thead>
+      <tbody>
+         {{#each requests}}
+            {{> request}}
+         {{/each}}
+      </tbody>
+   </table>
+</template>
+
+<template name="request">
+   <tr>
+      <td>{{title}}</td>
+      <td>0</td>
+      <td>{{due}}</td>
+      <td>{{_id}}</td>
+   </tr>
+</template>
+
+
+
+
+
+
+
+
+
+<template name="ordersTemplate">
+   <div class="span4 offset1">
+      {{#if currentUser}}
+         {{> newOrder}}
+      {{else}}
+         {{> requestLogin}}
+      {{/if}}
+   </div>
+
+   <div class="span8">
+      {{> ordersList}}
+   </div>
+</template>
 
 <template name="requestLogin">
    <h1>Your Order</h1>
