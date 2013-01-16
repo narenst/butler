@@ -34,12 +34,29 @@ Template.newRequest.events({
       console.log("Clear order form");
       clearRequestForm(template);
    },
-
-   // 'click #delete' : function(event, template) {
-   //    console.log("Deleting order");
-   //    crud(template, 'deleteOrder');
-   // },
 });
+
+Template.request.events({
+
+   'click #delete' : function(event, template) {
+      console.log("Deleting request, id : " + this._id);
+      deleteRequest(this._id);
+   },
+});
+
+//delete request
+function deleteRequest(id) {
+
+   Meteor.call("deleteRequest", {
+      id : id
+   }), function(error) {
+      if (!error) {
+         console.log("Sucessfully completed operation");
+      } else {
+         console.log("Error in deleting the request");
+      }
+   }
+}
 
 //Create request
 function createRequest(template) {

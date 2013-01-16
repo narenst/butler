@@ -61,9 +61,8 @@ Meteor.methods({
    },
 
    deleteRequest: function (options) {
-
       return Requests.remove(
-         { _id: options.id}
+         { _id: options.id }
       );
    }
 });
