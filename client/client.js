@@ -19,8 +19,26 @@ Template.ordersList.request = function() {
    return Requests.findOne({_id:Session.get("request_id")});
 }
 
+Template.newOrder.currentRequest = function() {
+   return Requests.findOne({_id:Session.get("request_id")});
+}
+
 Template.newOrder.existingOrder = function() {
    return Orders.findOne({userId:Meteor.userId(), requestId:Session.get("request_id")});
+}
+
+Template.newOrder.existingOrderFieldValues = function() {
+   order = Orders.findOne({userId:Meteor.userId(), requestId:Session.get("request_id")});
+   request = Requests.findOne({_id:Session.get("request_id")});
+
+   var fieldValues = [];
+
+   for (var i=0; i<order.values.length; i++) {
+      var fieldValue = {"field" : request.fields[i],
+                        "value" : order.values[i]};
+      fieldValues.push(fieldValue);
+   }
+   return fieldValues;
 }
 
 Template.requestsList.requests = function() {
@@ -156,8 +174,17 @@ Template.newOrder.events({
 //Second param defines the operation
 function crud(template, operation) {
 
-   var name = template.find("#name").value;
-   var count = template.find("#count").value;
+   fields = template.findAll(".values");
+   values = [];
+   for (var i=0; i < fields.length; i++) {
+      var value = fields[i].value;
+      if (value.length) {
+         values.push(value);
+      }
+   }
+
+   // var name = template.find("#name").value;
+   // var count = template.find("#count").value;
    var userId = Meteor.userId();
    var requestId = Session.get("request_id");
 
@@ -180,17 +207,17 @@ function crud(template, operation) {
    }
 
    console.log("operation : " + operation);
-   console.log(name);
-   console.log(count);
+   // console.log(name);
+   // console.log(count);
+   console.log(values);
    console.log(userId);
    console.log(requestId);
 
    // Validate inputs
-   if (name.length && count.length) {
-      clearForm(template);
+   if (values.length) {
+      // clearForm(template);
       Meteor.call(operation, {
-         name : name,
-         count : count,
+         values: values,
          userId: userId,
          requestId: requestId
       }), function(error, order) {
@@ -207,8 +234,10 @@ function crud(template, operation) {
 
 //Clear input form
 function clearForm(template) {
-   template.find("#name").value = "";
-   template.find("#count").value = "";
+   fields = template.findAll(".values");
+   for (var i=0; i < fields.length; i++) {
+      fields[i].value = "";
+   }
 }
 
 

@@ -6,8 +6,7 @@ Requests = new Meteor.Collection("Requests")
 Meteor.methods({
 
    // Create an order
-   // name : item name
-   // count : count of items
+   // values: list of values for the fields in request
    // requestId: request id
    // userId : user id
    // userName : user name
@@ -22,8 +21,7 @@ Meteor.methods({
 
       if (request) {
          return Orders.insert({
-            name: options.name,
-            count: options.count,
+            values: options.values,
             userId: options.userId,
             userName: userName,
             requestId: options.requestId
@@ -40,8 +38,7 @@ Meteor.methods({
          { userId: options.userId, requestId: options.requestId }, 
          {
             $set: {
-               name: options.name,
-               count: options.count
+               values: options.values,
             }
          }
       );

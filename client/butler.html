@@ -119,11 +119,10 @@
 
    {{#if existingOrder}}
 
-      <label>Item Name</label>
-      <input type="text" id="name" value="{{existingOrder.name}}">
-
-      <label>Count</label>
-      <input type="text" id="count" value="{{existingOrder.count}}">
+      {{#each existingOrderFieldValues}}
+            <label>{{field}}</label>
+            <input type="text" class="values" id="{{field}}" value="{{value}}">
+      {{/each}}
 
       <br><br>
       <button class="btn btn-success" id="update">Update</button>
@@ -131,11 +130,10 @@
 
    {{else}}
 
-      <label>Item Name</label>
-      <input type="text" id="name">
-
-      <label>Count</label>
-      <input type="text" id="count">
+      {{#each currentRequest.fields}}
+            <label>{{this}}</label>
+            <input type="text" class="values" id="{{this}}">
+      {{/each}}
 
       <br><br>
       <button class="btn btn-success" id="create">Submit</button>
@@ -154,9 +152,9 @@
    <table class="table">
       <thead>
          <tr>
-            <th>User</th>
-            <th>Item</th>
-            <th>Count</th>
+            {{#each request.fields}}
+               <th>{{this}}</th>
+            {{/each}}
          </tr>
       </thead>
       <tbody>
@@ -169,9 +167,9 @@
 
 <template name="order">
    <tr>
-      <td>{{userName}}</td>
-      <td>{{name}}</td>
-      <td>{{count}}</td>
+      {{#each values}}
+         <td>{{this}}</td>
+      {{/each}}
    </tr>
 </template>
 
