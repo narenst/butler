@@ -20,12 +20,23 @@ Meteor.methods({
       var request = Requests.findOne({_id:options.requestId});
 
       if (request) {
-         return Orders.insert({
+         var order = Orders.insert({
             values: options.values,
             userId: options.userId,
             userName: userName,
             requestId: options.requestId
          });
+
+         //Update request entries count.
+         Requests.update (
+            { _id : options.requestId },
+            { $inc: {
+               "entries" : 1   
+            }}
+         );
+
+         return order;
+
       } else {
          console.log("Request no longer exists");
          return null;
@@ -46,9 +57,19 @@ Meteor.methods({
 
    deleteOrder: function (options) {
       
-      return Orders.remove(
+      var order = Orders.remove(
          { userId: options.userId, requestId: options.requestId }
       );
+
+      //Update request entries count.
+      Requests.update (
+         { _id : options.requestId },
+         { $dec: {
+            "entries" : 1   
+         }}
+      );
+
+      return order;
    },
 
 
@@ -63,7 +84,8 @@ Meteor.methods({
          title: options.title,
          due: options.due,
          userId: options.userId,
-         fields: options.fields
+         fields: options.fields,
+         entries: 0
       });
    },
 

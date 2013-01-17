@@ -45,6 +45,10 @@ Template.requestsList.requests = function() {
    return Requests.find({userId:Meteor.userId()});
 }
 
+Template.requestsList.entries = function() {
+   return Orders.find({requestId:this._id}).count();
+}
+
 Template.newRequest.events({
 
    'click #create' : function (event, template) {

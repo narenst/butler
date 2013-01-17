@@ -60,7 +60,7 @@
 
 <template name="requestsList">
    <h1>Your Requests</h1>
-   <table class="table">
+   <table class="table table-bordered table-hover">
       <thead>
          <tr>
             <th>Title</th>
@@ -81,7 +81,7 @@
 <template name="request">
    <tr>
       <td>{{title}}</td>
-      <td>0</td>
+      <td>{{entries}}</td>
       <td>{{due}}</td>
       <td><a href="requests/{{_id}}">Link</a></td>
       <td><button class="btn btn-danger" id="delete">Delete</button></td>
@@ -147,11 +147,12 @@
 <template name="ordersList">
 
    <h2> {{request.title}} </h2>
-   <h5> <b> Due: </b> {{ request.due }} </h5>
+   <h5> Due: {{ request.due }} </h5>
 
-   <table class="table">
+   <table class="table table-striped table-bordered">
       <thead>
          <tr>
+            <th>User</th>
             {{#each request.fields}}
                <th>{{this}}</th>
             {{/each}}
@@ -163,10 +164,14 @@
          {{/each}}
       </tbody>
    </table>
+
+   <h5> Total Entries: {{request.entries}} </h5>
+
 </template>
 
 <template name="order">
    <tr>
+      <td>{{userName}}</td>
       {{#each values}}
          <td>{{this}}</td>
       {{/each}}
