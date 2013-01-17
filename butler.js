@@ -64,8 +64,8 @@ Meteor.methods({
       //Update request entries count.
       Requests.update (
          { _id : options.requestId },
-         { $dec: {
-            "entries" : 1   
+         { $inc: {
+            "entries" : -1
          }}
       );
 
