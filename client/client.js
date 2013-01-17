@@ -11,6 +11,10 @@ Template.routerTemplate.requestsPage = function() {
    return Session.get("current_page") === "requests";
 }
 
+Template.routerTemplate.homePage = function() {
+   return Session.get("current_page") === "home";
+}
+
 Template.ordersList.orders = function() {
    return Orders.find({requestId:Session.get("request_id")});
 }
@@ -250,7 +254,13 @@ function clearForm(template) {
 var ButlerRouter = Backbone.Router.extend({
    routes: {
       "requests/:request_id": "orders",
-      "requests": "requests"
+      "requests": "requests",
+      "requests/": "requests",
+      "": "home",
+   },
+
+   home: function () {
+      Session.set("current_page", "home");
    },
 
    orders: function (request_id) {
