@@ -8,5 +8,5 @@ insecure
 preserve-inputs
 accounts-password
 accounts-ui
-bootstrap
 backbone
+bootstrap

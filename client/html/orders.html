@@ -1,0 +1,83 @@
+<template name="ordersTemplate">
+   <div class="span4 offset1">
+      {{#if currentUser}}
+         {{> newOrder}}
+      {{else}}
+         {{> requestLogin}}
+      {{/if}}
+   </div>
+
+   <div class="span8">
+      {{> ordersList}}
+   </div>
+</template>
+
+<template name="requestLogin">
+   <h1>Your Order</h1>
+
+   Sign in to place your order.
+</template>
+
+<template name="newOrder">
+   <h1>Your Order</h1>
+
+   {{#if existingOrder}}
+
+      {{#each existingOrderFieldValues}}
+            <label>{{field}}</label>
+            <input type="text" class="values" id="{{field}}" value="{{value}}">
+      {{/each}}
+
+      <br><br>
+      <button class="btn btn-success" id="update">Update</button>
+      <button class="btn btn-danger" id="delete">Delete</button>
+
+   {{else}}
+
+      {{#each currentRequest.fields}}
+            <label>{{this}}</label>
+            <input type="text" class="values" id="{{this}}">
+      {{/each}}
+
+      <br><br>
+      <button class="btn btn-success" id="create">Submit</button>
+
+   {{/if}}
+
+   <button class="btn" id="clear">Clear</button>
+
+</template>
+
+<template name="ordersList">
+
+   <h2> {{request.title}} </h2>
+   <h5> Due: {{ request.due }} </h5>
+
+   <table class="table table-striped table-bordered">
+      <thead>
+         <tr>
+            <th>User</th>
+            {{#each request.fields}}
+               <th>{{this}}</th>
+            {{/each}}
+         </tr>
+      </thead>
+      <tbody>
+         {{#each orders}}
+            {{> order}}
+         {{/each}}
+      </tbody>
+   </table>
+
+   <h5> Total Entries: {{request.entries}} </h5>
+
+</template>
+
+<template name="order">
+   <tr>
+      <td>{{userName}}</td>
+      {{#each values}}
+         <td>{{this}}</td>
+      {{/each}}
+   </tr>
+</template>

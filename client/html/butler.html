@@ -1,0 +1,27 @@
+<head>
+  <title>Butler at your service</title>
+</head>
+
+<body>
+   {{>navbar}}
+   <div class="row">
+      <br><br>
+   </div>
+   <div class="row">
+      {{>routerTemplate}}
+   </div>
+</body>
+
+<template name="routerTemplate">
+   {{#if homePage}}
+      {{>homeTemplate}}
+   {{/if}}
+
+   {{#if orderPage}}
+      {{>ordersTemplate}}
+   {{/if}}
+
+   {{#if requestsPage}}
+      {{>requestsTemplate}}
+   {{/if}}   
+</template>
