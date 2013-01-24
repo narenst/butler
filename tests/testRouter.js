@@ -1,8 +1,10 @@
-// Test the client in this example
-// Meteor = {
-// 	'is_client': true,
-// 	'is_server': false
-// };
+//Test the client in this example
+Meteor = {
+	'is_client': true,
+	'is_server': false,
+   'startup': function (val) {
+   }
+};
 
 // Create dummy objects
 Template = {
@@ -15,6 +17,10 @@ Backbone = {
          return function() {
             return methods;
          }
+      }
+   },
+   'history' : {
+      start : function(state) {
       }
    }
 }
