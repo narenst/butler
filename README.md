@@ -1,4 +1,9 @@
 butler
 ======
 
-Simple meteor app
+## Tests
+
+To run tests open in your browser
+
+  tests/alltests.html 
+
