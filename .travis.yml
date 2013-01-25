@@ -4,4 +4,4 @@ before_script: curl https://install.meteor.com | /bin/sh
 
 script: ls 
 
-after_sucess: meteor deploy butler-dev.meteor.com
+after_success: meteor deploy butler-dev.meteor.com
