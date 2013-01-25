@@ -1,9 +1,5 @@
 language: node_js
 
-install: npm install -g mocha-phantomjs
+before_script: curl https://install.meteor.com | /bin/sh
 
-branches:
-  only:
-    - master
-    
-script: mocha-phantomjs tests/alltests.html
+after_sucess: meteor deploy butler-dev.meteor.com
