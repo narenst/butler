@@ -20,3 +20,4 @@ To run tests open in your browser
 
   tests/alltests.html 
 
+Ignore this:
